@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local brand assets (LinkedIn banners), not part of the site
 /brand
+
+# netlify cli
+/.netlify
