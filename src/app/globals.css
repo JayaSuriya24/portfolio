@@ -1,26 +1,307 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Monochrome system. No accent colour anywhere: hierarchy comes from scale,
+   weight and negative space, not hue.
+--------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --surface: #0a0a0a;
+  --foreground: #ffffff;
+  --muted: #b5b5b5;
+  --border: #333333;
+
+  /* Horizontal gutter, shared by the hero and every section below it so the
+     whole page reads as one column of type. */
+  --gutter: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 4.5rem;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --font-serif: var(--font-gwen);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark only — no light-mode toggle, so the scheme is declared once. */
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  /* Keeps anchored sections clear of the fixed navigation. */
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+  font-size: 112.5%; /* Increases base font size from 16px to 18px */
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-serif), ui-serif, Georgia, "Times New Roman", serif;
+  /* Nothing on this page is wider than the viewport. */
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+/* Visible, consistent focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   Entrance motion (ScrollEffects.tsx). Fail-safe: text is always visible
+   by default. ScrollEffects marks only blocks still below the fold as
+   .reveal-pending and removes the mark when they scroll in, so the block
+   transitions back to its normal state. Anything the script misses — no JS,
+   reduced motion, a hot reload — simply stays visible.
+--------------------------------------------------------------------------- */
+[data-scroll="rise"],
+[data-scroll="slide"] {
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--delay, 0ms);
+}
+
+[data-scroll="rise"].reveal-pending {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0);
+}
+
+[data-scroll="slide"].reveal-pending {
+  opacity: 0;
+  transform: translate3d(calc(var(--dir, 1) * 12vw), 0, 0);
+}
+
+/* Hero parallax (scroll-linked, --hp 0 -> 1 as the hero leaves). The
+   portrait grows from its centre while drifting down by the same amount its
+   top edge would rise, so the top stays pinned and no gap ever opens. */
+[data-scroll="hero-photo"] {
+  transform: translate3d(0, calc(var(--hp, 0) * 10%), 0)
+    scale(calc(1 + var(--hp, 0) * 0.2));
+  will-change: transform;
+}
+
+[data-scroll="hero-text"] {
+  opacity: calc(1 - var(--hp, 0) * 1.4);
+  transform: translate3d(0, calc(var(--hp, 0) * -120px), 0);
+}
+
+/* ---------------------------------------------------------------------------
+   Choreography inside a Reveal group.
+--------------------------------------------------------------------------- */
+
+/* Masked word rise: each word slides up from behind its own clip line, so the
+   sentence appears to be set in place rather than faded in. The mask is padded
+   so serif descenders (g, p, y) are never cut off at rest. */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.word {
+  display: inline-block;
+  transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-pending .word {
+  transform: translate3d(0, 105%, 0);
+}
+
+/* ---------------------------------------------------------------------------
+   Backdrop (Backdrop.tsx) and section numerals (SectionMark.tsx). Hairline
+   white on black only. Motion is scroll-driven (animation-timeline), so the
+   compositor runs it without any scroll handler; browsers without support
+   show the ornament at rest.
+--------------------------------------------------------------------------- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bd-orbit {
+  position: absolute;
+  top: 14vh;
+  right: -22vmin;
+  width: 78vmin;
+  height: 78vmin;
+}
+
+.bd-ring,
+.bd-ring-inner,
+.bd-dot-ring {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.bd-ring {
+  inset: 0;
+  border: 1px dashed rgb(255 255 255 / 0.16);
+}
+
+.bd-ring-inner {
+  inset: 14%;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  /* A short arc, so the counter-rotation is visible. */
+  border-top-color: rgb(255 255 255 / 0.32);
+}
+
+/* Needle from the centre to the dial's edge. */
+.bd-tick {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 50%;
+  background: linear-gradient(to top, rgb(255 255 255 / 0.18), transparent);
+  transform-origin: 50% 100%;
+}
+
+/* Gutter rule that draws itself down as the page is read. */
+.bd-rule {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--gutter) / 2);
+  width: 1px;
+  background: rgb(255 255 255 / 0.14);
+  transform-origin: 50% 0;
+}
+
+.bd-dot-ring {
+  width: 26vmin;
+  height: 26vmin;
+  left: -9vmin;
+  bottom: -9vmin;
+  border: 1px dotted rgb(255 255 255 / 0.2);
+}
+
+/* Text knockout: text boxes carry the page colour and shrink to their text,
+   so the ornament and the section numerals pass behind words instead of
+   through them, yet stay visible in the empty space around them. Wrapping is
+   unchanged (fit-content never exceeds the available width). In the base
+   layer so any explicit width or background utility still wins. */
+@layer base {
+  main :is(h1, h2, h3, p, dt, dd, li:not(:has(div, article)), span:not(.section-mark)),
+  footer :is(p, span) {
+    width: fit-content;
+    background-color: var(--background);
+  }
+}
+
+/* Phones: the ornament shares the column with body text, so it stays fainter. */
+@media (max-width: 767px) {
+  .bd-tick {
+    opacity: 0.5;
+  }
+}
+
+.section-mark {
+  position: absolute;
+  z-index: -1;
+  top: 1.5rem;
+  right: var(--gutter);
+  font-size: clamp(7rem, 30vw, 22rem);
+  font-weight: 600;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 0.13);
+  pointer-events: none;
+  user-select: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .bd-ring,
+  .bd-ring-inner,
+  .bd-tick,
+  .bd-rule,
+  .bd-dot-ring {
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root);
+  }
+
+  .bd-ring { animation-name: bd-spin; }
+  .bd-ring-inner { animation-name: bd-spin-back; }
+  .bd-tick { animation-name: bd-sweep; }
+  .bd-rule { animation-name: bd-draw; }
+  .bd-dot-ring { animation-name: bd-breathe; }
+
+  .section-mark {
+    animation: mark-glide linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+@keyframes bd-spin { to { transform: rotate(320deg); } }
+@keyframes bd-spin-back { to { transform: rotate(-540deg); } }
+@keyframes bd-sweep { to { transform: rotate(720deg); } }
+@keyframes bd-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes bd-breathe {
+  50% { transform: scale(1.6) rotate(90deg); }
+  to { transform: scale(1) rotate(180deg); }
+}
+
+@keyframes mark-glide {
+  from { transform: translate3d(12%, 0, 0); opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  to { transform: translate3d(-12%, 0, 0); opacity: 0; }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion: disable reveal animation and smooth scrolling entirely.
+   Content must be fully visible even if the observer never fires.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .backdrop *,
+  .section-mark {
+    animation: none !important;
+  }
+
+  .word,
+  [data-scroll] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
