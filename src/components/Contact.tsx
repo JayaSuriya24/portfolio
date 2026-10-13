@@ -1,11 +1,23 @@
 import Reveal from "./Reveal";
 import { contact, isPlaceholder, profile } from "@/data/profile";
 
+/** "https://www.linkedin.com/in/name/" -> "linkedin.com/in/name", for display only. */
+function displayUrl(url: string) {
+  return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+}
+
+/* Phone: label on its own line, then address + arrow. From sm up: one row in
+   fixed columns, so every channel lines up. */
+const rowClass =
+  "grid min-h-[64px] grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 gap-y-1.5 py-4 sm:grid-cols-[6.5rem_minmax(0,1fr)_auto] sm:gap-x-8";
+const labelClass =
+  "col-span-2 text-xs uppercase tracking-[0.18em] text-muted sm:col-span-1";
+
 export default function Contact() {
   const channels = [
     { label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-    { label: "LinkedIn", value: profile.linkedin, href: profile.linkedin },
-    { label: "GitHub", value: profile.github, href: profile.github },
+    { label: "LinkedIn", value: displayUrl(profile.linkedin), href: profile.linkedin },
+    { label: "GitHub", value: displayUrl(profile.github), href: profile.github },
   ];
 
   return (
@@ -41,12 +53,12 @@ export default function Contact() {
       <Reveal delay={140}>
         <ul className="mt-12">
           {channels.map(({ label, value, href }) => (
-            <li key={label}>
+            // w-full: rows span the column so every arrow lines up on the right
+            // (the global text knockout would otherwise shrink them to fit).
+            <li key={label} className="w-full">
               {isPlaceholder(value) ? (
-                <div className="flex min-h-[64px] flex-wrap items-center gap-x-8 gap-y-1 py-4">
-                  <span className="w-24 shrink-0 text-xs uppercase tracking-[0.18em] text-muted">
-                    {label}
-                  </span>
+                <div className={rowClass}>
+                  <span className={labelClass}>{label}</span>
                   <span className="text-muted/50">{value}</span>
                 </div>
               ) : (
@@ -54,17 +66,15 @@ export default function Contact() {
                   href={href}
                   target={label === "Email" ? undefined : "_blank"}
                   rel={label === "Email" ? undefined : "noreferrer noopener"}
-                  className="group flex min-h-[64px] flex-wrap items-center gap-x-8 gap-y-1 py-4"
+                  className={`group ${rowClass}`}
                 >
-                  <span className="w-24 shrink-0 text-xs uppercase tracking-[0.18em] text-muted">
-                    {label}
-                  </span>
-                  <span className="text-base transition-colors duration-300 group-hover:text-muted sm:text-lg">
+                  <span className={labelClass}>{label}</span>
+                  <span className="min-w-0 text-[0.95rem] [overflow-wrap:anywhere] transition-colors duration-300 group-hover:text-muted sm:text-lg">
                     {value}
                   </span>
                   <span
                     aria-hidden="true"
-                    className="ml-auto transition-transform duration-300 group-hover:translate-x-1"
+                    className="justify-self-end transition-transform duration-300 group-hover:translate-x-1"
                   >
                     →
                   </span>
