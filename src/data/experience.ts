@@ -24,6 +24,8 @@ export const experience: ExperienceEntry[] = [
       "Building reusable mobile interfaces with React Native, Expo, TypeScript, and Expo Router, and integrating Express APIs with Supabase/PostgreSQL for application data and user workflows",
       "Working on UI/UX, application architecture, validation, testing, and reliable frontend-to-backend integration for a maintainable iOS and Android experience",
     ],
+    // Paste the App Store / Google Play link here to activate the button.
+    download: "[ADD APP DOWNLOAD URL]",
   },
   {
     id: "hacker-dojo",

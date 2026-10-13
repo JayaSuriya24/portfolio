@@ -6,6 +6,7 @@ import Monogram from "@/components/Monogram";
 import Footer from "@/components/Footer";
 import { getProject, projects } from "@/data/projects";
 import { isPlaceholder } from "@/data/profile";
+import DownloadButton from "@/components/DownloadButton";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -100,8 +101,13 @@ export default async function ProjectPage({ params }: Params) {
               {project.overview}
             </p>
 
-            {(links.length > 0 || (project.status && !isPlaceholder(project.status))) && (
+            {(links.length > 0 ||
+              project.download ||
+              (project.status && !isPlaceholder(project.status))) && (
               <div className="mt-10 flex flex-wrap items-center gap-3">
+                {/* Primary action: solid, so it leads the outlined links. */}
+                {project.download && <DownloadButton href={project.download} />}
+
                 {links.map((link) => (
                   <a
                     key={link.label}

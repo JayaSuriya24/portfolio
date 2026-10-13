@@ -59,6 +59,8 @@ export type ExperienceEntry = {
   logo?: OrgLogo;
   description: string;
   accomplishments: string[];
+  /** App download link; an "[ADD …]" placeholder shows a "Coming soon" button. */
+  download?: string;
 };
 
 export type ProjectDetail = {
@@ -81,6 +83,11 @@ export type Project = {
   status?: string;
   github?: string;
   demo?: string;
+  /**
+   * App download link (App Store / Google Play / landing page). While it is
+   * still an "[ADD …]" placeholder the button shows as "Coming soon".
+   */
+  download?: string;
   image?: {
     src: string;
     alt: string;

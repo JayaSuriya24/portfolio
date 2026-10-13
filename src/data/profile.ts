@@ -67,5 +67,5 @@ export const contact = {
   /** Rendered as three stacked lines of large type. */
   headlineLines: ["LET'S BUILD", "SOMETHING", "USEFUL."],
   blurb:
-    "I'm open to software engineering roles and internships in backend, full-stack, and applied ML. The fastest way to reach me is email.",
+    "I'm open to software engineering roles and internships in backend, full-stack, and applied ML. The fastest way to reach me is LinkedIn.",
 };

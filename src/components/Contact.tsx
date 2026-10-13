@@ -15,7 +15,6 @@ const labelClass =
 
 export default function Contact() {
   const channels = [
-    { label: "Email", value: profile.email, href: `mailto:${profile.email}` },
     { label: "LinkedIn", value: displayUrl(profile.linkedin), href: profile.linkedin },
     { label: "GitHub", value: displayUrl(profile.github), href: profile.github },
   ];
@@ -64,8 +63,8 @@ export default function Contact() {
               ) : (
                 <a
                   href={href}
-                  target={label === "Email" ? undefined : "_blank"}
-                  rel={label === "Email" ? undefined : "noreferrer noopener"}
+                  target="_blank"
+                  rel="noreferrer noopener"
                   className={`group ${rowClass}`}
                 >
                   <span className={labelClass}>{label}</span>

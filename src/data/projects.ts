@@ -73,7 +73,8 @@ export const projects: Project[] = [
       "Stripe",
     ],
     github: "[ADD GITHUB URL]",
-    demo: "[ADD APP STORE OR DEMO URL]",
+    // Paste the App Store / Google Play link here to activate the button.
+    download: "[ADD APP DOWNLOAD URL]",
     image: undefined,
     detail: {
       problem:

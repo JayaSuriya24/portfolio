@@ -1,5 +1,6 @@
 import ExpandableList from "./ExpandableList";
 import OrgLogo from "./OrgLogo";
+import DownloadButton from "./DownloadButton";
 import Reveal from "./Reveal";
 import { experience } from "@/data/experience";
 import { isPlaceholder } from "@/data/profile";
@@ -65,6 +66,12 @@ export default function Experience() {
                           placeholder: isPlaceholder(text),
                         }))}
                       />
+                    </div>
+                  )}
+
+                  {entry.download && (
+                    <div className="mt-6">
+                      <DownloadButton href={entry.download} />
                     </div>
                   )}
                 </div>
