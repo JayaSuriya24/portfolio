@@ -75,7 +75,7 @@ export default function About() {
 
       {/* Facts row; each fact rises in turn. */}
       <div className="mt-16 md:mt-24">
-        <dl className="grid grid-cols-2 gap-x-8 gap-y-8 pt-8 md:grid-cols-4 md:gap-x-12">
+        <dl className="grid grid-cols-2 gap-x-8 gap-y-8 pt-8 md:grid-cols-3 md:gap-x-12">
           {about.facts.map((fact, index) => (
             <Reveal key={fact.label} delay={250 + index * 110}>
               <dt className="text-xs uppercase tracking-[0.18em] text-muted">{fact.label}</dt>

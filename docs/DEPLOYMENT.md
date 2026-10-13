@@ -72,11 +72,10 @@ It feeds the canonical URL, Open Graph tags and JSON-LD; while it is still the
 
 ## Outstanding before launch
 
-- [ ] Turn off site protection (see [Visitor access](#visitor-access)).
+- [x] Turn off site protection (see [Visitor access](#visitor-access)).
 - [ ] Link the GitHub repository for automatic deploys.
-- [ ] Set `siteUrl` in `src/data/profile.ts` to `https://jayasuriya-manick-portfolio.netlify.app`
-      (or the custom domain).
+- [x] Set `siteUrl` in `src/data/profile.ts` to `https://jayasuriya-manick-portfolio.netlify.app`
+      (change it again if you add a custom domain).
 - [ ] Add `public/resume.pdf`; the "Resume ↓" button 404s without it.
 - [ ] Fill the remaining `[ADD …]` placeholders in `src/data/`: project status, GitHub and
-      demo links (`projects.ts`), Tools (`skills.ts`), and one set of education dates
-      (`education.ts`). Find them with `grep -rn "\[ADD" src/data`.
+      demo links (`projects.ts`). Find them with `grep -rn "\[ADD" src/data`.

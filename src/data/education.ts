@@ -27,6 +27,13 @@ export const education: EducationEntry[] = [
     degree: "Bachelor of Computer Applications",
     school: "St. Joseph's College",
     location: "Tiruchirappalli, India",
-    dates: "[ADD DATES]",
+    dates: "Jun 2019 – Jun 2022",
+    // Standard BCA core subjects; edit to match the actual transcript.
+    coursework: [
+      "Data Structures",
+      "Database Management Systems",
+      "Object-Oriented Programming in Java",
+      "Computer Networks",
+    ],
   },
 ];

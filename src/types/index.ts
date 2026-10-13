@@ -10,6 +10,8 @@ export type Profile = {
   location: string;
   /** 2-4 short lines shown under the hero title. */
   intro: string[];
+  /** One-sentence statement shown under the intro; **word** marks emphasis. */
+  tagline: string;
   email: string;
   github: string;
   linkedin: string;

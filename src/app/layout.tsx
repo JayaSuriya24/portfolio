@@ -15,6 +15,8 @@ import Backdrop from "@/components/Backdrop";
 const serif = Source_Serif_4({
   variable: "--font-gwen",
   subsets: ["latin"],
+  // Italic is used only by the hero tagline.
+  style: ["normal", "italic"],
   display: "swap",
 });
 

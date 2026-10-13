@@ -11,7 +11,7 @@ export const skills: SkillGroup[] = [
   },
   {
     category: "Frontend & Mobile",
-    items: ["Angular", "React Native", "Expo"],
+    items: ["Angular", "React", "React Native", "Expo", "React Query", "Zustand"],
   },
   {
     category: "Data",
@@ -22,8 +22,8 @@ export const skills: SkillGroup[] = [
     items: ["PyTorch", "Vertex AI"],
   },
   {
-    category: "Tools",
-    // List only what you actually use day to day.
-    items: ["[ADD TOOLS — e.g. Git, Docker, cloud platforms]"],
+    category: "Cloud & Tools",
+    // Drawn from experience.ts and projects.ts; list only what you actually use.
+    items: ["AWS (EC2, ELB, VPC)", "Jenkins", "Git", "CI/CD pipelines", "Stripe", "Zod"],
   },
 ];

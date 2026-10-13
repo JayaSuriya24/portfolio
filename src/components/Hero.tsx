@@ -77,8 +77,18 @@ export default function Hero() {
             ))}
           </div>
 
-          <p className="mt-6 text-xs uppercase tracking-[0.18em] text-muted">
-            {profile.location}
+          {/* Pull-quote: serif italic behind a hairline, the sentence's two
+              turning words ("scale", "think") lifted to white. */}
+          <p className="mt-7 max-w-[34ch] border-l border-foreground/40 pl-4 text-[clamp(1.15rem,4.6vw,1.4rem)] font-light italic leading-snug text-muted md:text-[clamp(1.15rem,1.6vw,1.6rem)]">
+            {profile.tagline.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+              i % 2 === 1 ? (
+                <span key={i} className="font-normal text-foreground">
+                  {part}
+                </span>
+              ) : (
+                part
+              ),
+            )}
           </p>
 
           <SocialLinks className="mt-6 -ml-3" />

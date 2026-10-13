@@ -17,10 +17,12 @@ export const profile: Profile = {
   intro: [
     "Currently an M.S. Computer Science student at the University of North Texas, working on applied ML for incident root-cause analysis.",
   ],
+  // **word** is set as white emphasis.
+  tagline: "Designing systems that **scale** and applications that **think**.",
   email: "jayasuriya2410@gmail.com",
   github: "https://github.com/JayaSuriya24",
   linkedin: "https://www.linkedin.com/in/jaya-suriya-manickavasagam/",
-  siteUrl: "[ADD CANONICAL SITE URL]",
+  siteUrl: "https://jayasuriya-manick-portfolio.netlify.app",
   resumeUrl: "/resume.pdf",
   portrait: {
     src: "/images/portrait.jpg",
@@ -58,7 +60,6 @@ export const about = {
     { label: "Experience", value: "Nearly 3 years in production backend" },
     { label: "Studying", value: "M.S. Computer Science, UNT" },
     { label: "Focus", value: "Distributed systems & applied ML" },
-    { label: "Based in", value: "Denton, Texas" },
   ],
 };
 
